@@ -278,6 +278,11 @@ button:focus {
     outline: none;
   }
 
+  /* Hide pagination thumbnails on mobile - only show prev/next buttons */
+  .pagination {
+    display: none !important;
+  }
+
   /* Espaciado para contenido principal */
   .Products {
     clear: both;
