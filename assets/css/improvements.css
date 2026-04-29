@@ -208,11 +208,11 @@ button:focus {
 
   /* Index carousel - show complete image with good height */
   #carouselIndex .carousel-inner {
-    height: 220px;
+    height: 180px;
   }
 
   #carouselIndex .carousel-item {
-    height: 220px;
+    height: 180px;
   }
 
   #carouselIndex .carousel-item img {
