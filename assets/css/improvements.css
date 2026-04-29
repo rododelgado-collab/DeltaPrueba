@@ -126,23 +126,29 @@ button:focus {
 
 /* ====== Slider Mobile - Ajuste Completo ====== */
 @media (max-width: 767px) {
-  /* Espaciado del body para el header fijo */
+  /* Espaciado del body para el header fijo - Solo primer elemento */
   body {
-    padding-top: 60px !important;
+    padding-top: 0 !important;
+  }
+
+  /* Agregar espaciado solo al primer elemento después del header */
+  .container_slider {
+    margin-top: 60px;
+    padding-top: 0;
+    margin-bottom: 0;
   }
 
   /* Header slider y contenedor */
   .header_slider {
-    margin-top: 0;
-    margin-bottom: 40px;
+    margin-top: 60px;
+    margin-bottom: 0;
     position: relative;
     z-index: 10;
   }
 
-  .container_slider {
+  /* Carousel contenedor */
+  .container_slider .carousel {
     margin-top: 0;
-    padding-top: 0;
-    margin-bottom: 0;
   }
 
   /* Slider con altura adecuada */
@@ -172,6 +178,12 @@ button:focus {
   }
 
   /* Carousel en mobile - muestra imágenes completas */
+  .carousel {
+    position: relative;
+    height: 320px;
+    margin: 0;
+  }
+
   .carousel-inner {
     height: 320px;
   }
@@ -186,35 +198,53 @@ button:focus {
   .carousel-item img {
     height: 100%;
     width: 100%;
-    object-fit: contain;
-    background-color: #f5f5f5;
+    object-fit: cover;
   }
 
   /* Botones del carousel - Mejores en mobile */
   .carousel-control-prev,
   .carousel-control-next {
+    position: absolute;
     top: 50%;
     transform: translateY(-50%);
     width: 50px;
     height: 50px;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.6);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0.8;
+    z-index: 20;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+  }
+
+  .carousel-control-prev {
+    left: 15px;
+  }
+
+  .carousel-control-next {
+    right: 15px;
   }
 
   .carousel-control-prev:hover,
   .carousel-control-next:hover {
     opacity: 1;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.8);
+    text-decoration: none;
   }
 
   .carousel-control-prev span span i,
   .carousel-control-next span i {
     color: white;
     font-size: 24px;
+  }
+
+  .carousel-control-prev:focus,
+  .carousel-control-next:focus {
+    outline: none;
   }
 
   /* Espaciado para contenido principal */
