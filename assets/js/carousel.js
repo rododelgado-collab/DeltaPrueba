@@ -1,155 +1,145 @@
-// Carousel control for both index and product pages
+// Ultra-simple carousel - handles both index and product pages
 document.addEventListener("DOMContentLoaded", function() {
-  var carousels = document.querySelectorAll(".carousel");
+  initializeCarousels();
+});
 
-  for (var c = 0; c < carousels.length; c++) {
-    var carousel = carousels[c];
-    var items = carousel.querySelectorAll(".carousel-item");
+function initializeCarousels() {
+  var allCarousels = document.querySelectorAll(".carousel");
 
-    if (items.length === 0) continue;
+  for (var c = 0; c < allCarousels.length; c++) {
+    initializeCarousel(allCarousels[c]);
+  }
+}
 
-    // Create closure to preserve carousel context
-    (function(carousel, items) {
-      var currentIndex = 0;
+function initializeCarousel(carouselElement) {
+  if (!carouselElement) return;
 
-      // Find active item
-      for (var i = 0; i < items.length; i++) {
-        if (items[i].classList.contains("active")) {
-          currentIndex = i;
-          break;
-        }
+  var items = carouselElement.querySelectorAll(".carousel-item");
+  if (items.length === 0) return;
+
+  // Find current slide index
+  var currentSlide = 0;
+  for (var i = 0; i < items.length; i++) {
+    if (items[i].classList.contains("active")) {
+      currentSlide = i;
+      break;
+    }
+  }
+
+  // Create navigator object for this carousel
+  var nav = {
+    carousel: carouselElement,
+    items: items,
+    indicators: carouselElement.querySelectorAll(".carousel-indicators li"),
+    prevBtn: carouselElement.querySelector(".carousel-control-prev"),
+    nextBtn: carouselElement.querySelector(".carousel-control-next"),
+    currentSlide: currentSlide,
+
+    goToSlide: function(index) {
+      // Calculate new index
+      if (index >= this.items.length) {
+        this.currentSlide = 0;
+      } else if (index < 0) {
+        this.currentSlide = this.items.length - 1;
+      } else {
+        this.currentSlide = index;
       }
 
-      // Change slide function
-      var changeSlide = function(index) {
-        // Wrap around
-        if (index >= items.length) {
-          currentIndex = 0;
-        } else if (index < 0) {
-          currentIndex = items.length - 1;
-        } else {
-          currentIndex = index;
-        }
+      // Update active item
+      for (var i = 0; i < this.items.length; i++) {
+        this.items[i].classList.remove("active");
+      }
+      this.items[this.currentSlide].classList.add("active");
 
-        // Update items
-        for (var i = 0; i < items.length; i++) {
-          if (items[i].classList.contains("active")) {
-            items[i].classList.remove("active");
-          }
-        }
-        items[currentIndex].classList.add("active");
+      // Update indicators
+      for (var i = 0; i < this.indicators.length; i++) {
+        this.indicators[i].classList.remove("active");
+      }
+      if (this.currentSlide < this.indicators.length) {
+        this.indicators[this.currentSlide].classList.add("active");
+      }
+    },
 
-        // Update indicators
-        var indicators = carousel.querySelectorAll(".carousel-indicators li");
-        if (indicators.length > 0) {
-          for (var i = 0; i < indicators.length; i++) {
-            if (indicators[i].classList.contains("active")) {
-              indicators[i].classList.remove("active");
-            }
-          }
-          if (currentIndex < indicators.length) {
-            indicators[currentIndex].classList.add("active");
-          }
-        }
+    setupButtons: function() {
+      var self = this;
 
-        // Update pagination for products
-        var parent = carousel.parentElement;
-        if (parent) {
-          var pageLinks = parent.querySelectorAll(".pagination a.page-link");
-          var imgIndex = 0;
-          for (var i = 0; i < pageLinks.length; i++) {
-            var link = pageLinks[i];
-            if (link.querySelector("img")) {
-              if (link.parentElement.classList.contains("active")) {
-                link.parentElement.classList.remove("active");
-              }
-              if (imgIndex === currentIndex) {
-                link.parentElement.classList.add("active");
-              }
-              imgIndex++;
-            }
-          }
-        }
-      };
-
-      // Add click handler to prev button
-      var prevBtn = carousel.querySelector(".carousel-control-prev");
-      if (prevBtn) {
-        var handlePrev = function(e) {
+      if (this.prevBtn) {
+        this.prevBtn.onclick = function(e) {
           e.preventDefault();
-          changeSlide(currentIndex - 1);
+          self.goToSlide(self.currentSlide - 1);
         };
-        prevBtn.addEventListener("click", handlePrev);
-        prevBtn.addEventListener("touchend", handlePrev);
       }
 
-      // Add click handler to next button
-      var nextBtn = carousel.querySelector(".carousel-control-next");
-      if (nextBtn) {
-        var handleNext = function(e) {
+      if (this.nextBtn) {
+        this.nextBtn.onclick = function(e) {
           e.preventDefault();
-          changeSlide(currentIndex + 1);
+          self.goToSlide(self.currentSlide + 1);
         };
-        nextBtn.addEventListener("click", handleNext);
-        nextBtn.addEventListener("touchend", handleNext);
       }
+    },
 
-      // Add click handlers to indicators
-      var indicators = carousel.querySelectorAll(".carousel-indicators li");
-      for (var i = 0; i < indicators.length; i++) {
-        (function(idx) {
-          var handleIndicator = function(e) {
+    setupIndicators: function() {
+      var self = this;
+
+      for (var i = 0; i < this.indicators.length; i++) {
+        (function(index) {
+          self.indicators[index].onclick = function(e) {
             e.preventDefault();
-            changeSlide(idx);
+            self.goToSlide(index);
           };
-          indicators[idx].addEventListener("click", handleIndicator);
-          indicators[idx].addEventListener("touchend", handleIndicator);
         })(i);
       }
+    },
 
-      // Handle product page pagination
-      if (carousel.id === "carouselProduct") {
-        var parent = carousel.parentElement;
-        if (parent) {
-          var pageLinks = parent.querySelectorAll(".pagination a.page-link");
-          var imgIndex = 0;
-          for (var i = 0; i < pageLinks.length; i++) {
-            (function(idx, link) {
-              if (link.querySelector("img")) {
-                var handlePagination = function(e) {
-                  e.preventDefault();
-                  changeSlide(idx);
-                };
-                link.addEventListener("click", handlePagination);
-                link.addEventListener("touchend", handlePagination);
-                imgIndex++;
-              }
-            })(imgIndex, pageLinks[i]);
-          }
-        }
+    setupProductPagination: function() {
+      var self = this;
+      var carouselId = this.carousel.id;
 
-        // Handle separate prev/next buttons
-        var prevBtnProd = document.getElementById("prevBtn");
-        var nextBtnProd = document.getElementById("nextBtn");
+      // Find pagination container
+      var paginationNav = this.carousel.parentElement;
+      if (!paginationNav) return;
 
-        if (prevBtnProd) {
-          var handlePrevProd = function(e) {
-            e.preventDefault();
-            changeSlide(currentIndex - 1);
-          };
-          prevBtnProd.addEventListener("click", handlePrevProd);
-          prevBtnProd.addEventListener("touchend", handlePrevProd);
-        }
+      // Find all pagination links with images
+      var paginationLinks = paginationNav.querySelectorAll(".pagination a.page-link");
+      var imageIndex = 0;
 
-        if (nextBtnProd) {
-          var handleNextProd = function(e) {
-            e.preventDefault();
-            changeSlide(currentIndex + 1);
-          };
-          nextBtnProd.addEventListener("click", handleNextProd);
-          nextBtnProd.addEventListener("touchend", handleNextProd);
+      for (var i = 0; i < paginationLinks.length; i++) {
+        var link = paginationLinks[i];
+        if (link.querySelector("img")) {
+          (function(idx) {
+            link.onclick = function(e) {
+              e.preventDefault();
+              self.goToSlide(idx);
+            };
+          })(imageIndex);
+          imageIndex++;
         }
       }
-    })(carousel, items);
-  }
-});
+
+      // Handle prevBtn and nextBtn if this is carouselProduct
+      if (carouselId === "carouselProduct") {
+        var prevBtnSep = document.getElementById("prevBtn");
+        var nextBtnSep = document.getElementById("nextBtn");
+
+        if (prevBtnSep) {
+          prevBtnSep.onclick = function(e) {
+            e.preventDefault();
+            self.goToSlide(self.currentSlide - 1);
+          };
+        }
+
+        if (nextBtnSep) {
+          nextBtnSep.onclick = function(e) {
+            e.preventDefault();
+            self.goToSlide(self.currentSlide + 1);
+          };
+        }
+      }
+    }
+  };
+
+  // Initialize
+  nav.setupButtons();
+  nav.setupIndicators();
+  nav.setupProductPagination();
+}
