@@ -191,11 +191,11 @@ button:focus {
   }
 
   .carousel-inner {
-    height: 200px;
+    height: 300px;
   }
 
   .carousel-item {
-    height: 200px;
+    height: 300px;
     display: none;
     align-items: center;
     justify-content: center;
@@ -207,8 +207,9 @@ button:focus {
 
   .carousel-item img {
     height: 100%;
-    width: 100%;
-    object-fit: cover;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
   }
 
   /* Indicadores del carousel */
