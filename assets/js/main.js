@@ -13,10 +13,8 @@ $(function () {
     var scroll = $(window).scrollTop();
     if (scroll < 20) {
       $(".header_navbar").removeClass("sticky");
-      $(".header_navbar img").attr("src", "assets/images/logo_white.png");
     } else {
       $(".header_navbar").addClass("sticky");
-      $(".header_navbar img").attr("src", "assets/images/logo_white.png");
     }
   });
 
@@ -91,58 +89,6 @@ $(function () {
     mobile: false, //
   });
   wow.init();
-});
-//=====  slider
-//===== pagination
-document.addEventListener("DOMContentLoaded", function () {
-  let items = document.querySelectorAll(".pagination .page-item");
-  let prevBtn = document.getElementById("prevBtn");
-  let nextBtn = document.getElementById("nextBtn");
-  let currentIndex = 1; // Índice inicial
-  let itemsPerPage = 5; // Cuántos elementos mostrar a la vez
-  let totalItems = items.length - 2; // Restamos los botones prev/next
-
-  function updatePagination() {
-    // Oculta todos los elementos de la paginación (excepto prev/next)
-    items.forEach((item, index) => {
-      if (index !== 0 && index !== items.length - 1) {
-        item.style.display = "none";
-      }
-    });
-
-    // Muestra los elementos dentro del rango actual
-    for (let i = currentIndex; i < currentIndex + itemsPerPage; i++) {
-      if (items[i]) {
-        items[i].style.display = "inline-block";
-      }
-    }
-
-    // Deshabilita prevBtn si estamos al inicio y nextBtn si llegamos al final
-    prevBtn.classList.toggle("disabled", currentIndex === 1);
-    nextBtn.classList.toggle(
-      "disabled",
-      currentIndex + itemsPerPage > totalItems
-    );
-  }
-
-  // Evento para botón "Siguiente"
-  nextBtn.addEventListener("click", function () {
-    if (currentIndex + itemsPerPage <= totalItems) {
-      currentIndex += itemsPerPage;
-      updatePagination();
-    }
-  });
-
-  // Evento para botón "Anterior"
-  prevBtn.addEventListener("click", function () {
-    if (currentIndex - itemsPerPage >= 1) {
-      currentIndex -= itemsPerPage;
-      updatePagination();
-    }
-  });
-
-  // Inicializa la paginación
-  updatePagination();
 });
 //===========modal
 const myModal = document.getElementById("myModal");
