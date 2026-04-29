@@ -82,46 +82,7 @@ $(function () {
 
   $("select").niceSelect();
 
-  //===== Carousel Controls - Solo con botones, sin auto-play
-
-  // Inicializar todos los carousels sin auto-play
-  $(".carousel").each(function () {
-    $(this).carousel({
-      interval: false,  // Desactivar auto-play
-      pause: false
-    });
-  });
-
-  // Controlar botones prev
-  $(document).on("click", ".carousel-control-prev", function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    const carouselId = $(this).attr("href");
-    if (carouselId && $(carouselId).length) {
-      $(carouselId).carousel("prev");
-    }
-    return false;
-  });
-
-  // Controlar botones next
-  $(document).on("click", ".carousel-control-next", function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    const carouselId = $(this).attr("href");
-    if (carouselId && $(carouselId).length) {
-      $(carouselId).carousel("next");
-    }
-    return false;
-  });
-
-  // Controlar indicadores (puntos de navegación)
-  $(document).on("click", ".carousel-indicators li", function (e) {
-    const $carousel = $(this).closest(".carousel");
-    if ($carousel.length) {
-      const index = $(this).data("slide-to");
-      $carousel.carousel(index);
-    }
-  });
+  //===== Carousel - Controlado por carousel.js
 
   //=====  WOW active
 

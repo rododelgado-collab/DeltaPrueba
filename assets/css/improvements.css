@@ -269,8 +269,8 @@ button:focus {
     clear: both;
     position: relative;
     z-index: 5;
-    margin-top: 40px !important;
-    padding-top: 30px !important;
+    margin-top: 80px !important;
+    padding-top: 40px !important;
   }
 
   .services_area {
