@@ -124,53 +124,66 @@ button:focus {
   }
 }
 
-/* ====== Slider Mobile - Agrandar en Mobile ====== */
+/* ====== Slider Mobile - Ajuste Proporcional ====== */
 @media (max-width: 767px) {
   .single_slider {
-    height: 450px !important;
+    height: 280px !important;
     margin-top: 0;
     padding-top: 0;
   }
 
   .slider_content {
-    padding-top: 120px;
+    padding-top: 60px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    min-height: 450px;
+    min-height: 280px;
   }
 
   .slider_content .slider_title {
-    font-size: 32px;
-    margin-bottom: 20px;
+    font-size: 28px;
+    margin-bottom: 10px;
   }
 
   .slider_content h3 {
-    font-size: 18px;
-    line-height: 1.5;
+    font-size: 16px;
+    line-height: 1.4;
   }
 
   .header_slider {
     margin-top: 0;
+    margin-bottom: 0;
   }
 
   .container_slider {
     margin-top: 0;
     padding-top: 0;
+    margin-bottom: 0;
   }
 
   /* Carousel en mobile */
   .carousel-inner {
-    height: 450px;
+    height: 280px;
   }
 
   .carousel-item {
-    height: 450px;
+    height: 280px;
   }
 
   .carousel-item img {
     height: 100%;
     object-fit: cover;
+    width: 100%;
+  }
+
+  /* Asegurar que el contenido después del slider no esté tapado */
+  .Products,
+  .services_area,
+  section:not(.header_slider) {
+    clear: both;
+    position: relative;
+    z-index: 1;
+    margin-top: 20px;
   }
 }
 
