@@ -57,44 +57,70 @@ button:focus {
   top: 0;
 }
 
-/* ====== Header Mobile Fix ====== */
+/* ====== Header Mobile - Fixed Black Header ====== */
 @media (max-width: 767px) {
-  body {
-    position: relative;
-  }
-
   #header-placeholder,
   .header_navbar {
-    position: relative !important;
-    z-index: 100;
-  }
-
-  .header_slider,
-  .container_slider {
-    margin-top: 0;
-    clear: both;
-  }
-
-  #header-placeholder .header_navbar {
-    position: relative !important;
-    top: auto;
-    left: auto;
-  }
-}
-
-/* ====== Sticky Header Mobile Fix ====== */
-@media (max-width: 767px) {
-  .sticky {
-    position: fixed;
+    position: fixed !important;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 100;
     width: 100%;
+    background-color: #000 !important;
+    z-index: 1000;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.21);
   }
 
-  .sticky ~ * {
+  /* Agregar padding-top al body para que el contenido no quede debajo del header */
+  body {
+    padding-top: 60px;
+  }
+
+  /* Header navbar específico */
+  .header_navbar {
+    background-color: #000 !important;
+    color: white;
+  }
+
+  /* Navbar links en blanco */
+  .header_navbar .navbar-nav a,
+  .header_navbar .nav-item a {
+    color: white !important;
+  }
+
+  /* Logo visible */
+  .header_navbar .logo {
+    filter: brightness(1);
+  }
+
+  /* Hamburger menu color */
+  .header_navbar .navbar-toggler .toggler-icon {
+    background-color: #fff !important;
+  }
+
+  /* Slider y contenido principal sin margen superior */
+  .header_slider,
+  .container_slider,
+  .Products,
+  section {
     margin-top: 0;
+  }
+}
+
+/* ====== Sticky State - Mantener consistencia ====== */
+@media (max-width: 767px) {
+  .sticky {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #000 !important;
+  }
+
+  .sticky .navbar {
+    padding: 15px 0;
   }
 }
 
