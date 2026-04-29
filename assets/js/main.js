@@ -82,6 +82,20 @@ $(function () {
 
   $("select").niceSelect();
 
+  //===== Carousel Controls
+
+  $(".carousel-control-prev").on("click", function (e) {
+    e.preventDefault();
+    const carouselId = $(this).attr("href");
+    $(carouselId).carousel("prev");
+  });
+
+  $(".carousel-control-next").on("click", function (e) {
+    e.preventDefault();
+    const carouselId = $(this).attr("href");
+    $(carouselId).carousel("next");
+  });
+
   //=====  WOW active
 
   var wow = new WOW({
