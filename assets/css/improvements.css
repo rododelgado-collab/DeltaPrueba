@@ -196,9 +196,13 @@ button:focus {
 
   .carousel-item {
     height: 200px;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
+  }
+
+  .carousel-item.active {
+    display: flex;
   }
 
   .carousel-item img {
