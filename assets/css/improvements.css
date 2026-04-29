@@ -124,6 +124,56 @@ button:focus {
   }
 }
 
+/* ====== Slider Mobile - Agrandar en Mobile ====== */
+@media (max-width: 767px) {
+  .single_slider {
+    height: 450px !important;
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  .slider_content {
+    padding-top: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 450px;
+  }
+
+  .slider_content .slider_title {
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+
+  .slider_content h3 {
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  .header_slider {
+    margin-top: 0;
+  }
+
+  .container_slider {
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  /* Carousel en mobile */
+  .carousel-inner {
+    height: 450px;
+  }
+
+  .carousel-item {
+    height: 450px;
+  }
+
+  .carousel-item img {
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
 /* ====== Footer Layout Improvements ====== */
 .footer_container {
   flex-wrap: wrap;
