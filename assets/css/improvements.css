@@ -124,20 +124,41 @@ button:focus {
   }
 }
 
-/* ====== Slider Mobile - Ajuste Proporcional ====== */
+/* ====== Slider Mobile - Ajuste Completo ====== */
 @media (max-width: 767px) {
-  .single_slider {
-    height: 280px !important;
+  /* Espaciado del body para el header fijo */
+  body {
+    padding-top: 60px !important;
+  }
+
+  /* Header slider y contenedor */
+  .header_slider {
+    margin-top: 0;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 10;
+  }
+
+  .container_slider {
     margin-top: 0;
     padding-top: 0;
+    margin-bottom: 0;
+  }
+
+  /* Slider con altura adecuada */
+  .single_slider {
+    height: 320px !important;
+    margin-top: 0;
+    padding-top: 0;
+    position: relative;
   }
 
   .slider_content {
-    padding-top: 60px;
+    padding-top: 80px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    min-height: 280px;
+    min-height: 320px;
   }
 
   .slider_content .slider_title {
@@ -150,40 +171,60 @@ button:focus {
     line-height: 1.4;
   }
 
-  .header_slider {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-
-  .container_slider {
-    margin-top: 0;
-    padding-top: 0;
-    margin-bottom: 0;
-  }
-
-  /* Carousel en mobile */
+  /* Carousel en mobile - muestra imágenes completas */
   .carousel-inner {
-    height: 280px;
+    height: 320px;
   }
 
   .carousel-item {
-    height: 280px;
+    height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .carousel-item img {
     height: 100%;
-    object-fit: cover;
     width: 100%;
+    object-fit: contain;
+    background-color: #f5f5f5;
   }
 
-  /* Asegurar que el contenido después del slider no esté tapado */
-  .Products,
-  .services_area,
+  .carousel-control-prev,
+  .carousel-control-next {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  /* Espaciado para contenido principal */
+  .Products {
+    clear: both;
+    position: relative;
+    z-index: 5;
+    margin-top: 40px !important;
+    padding-top: 30px !important;
+  }
+
+  .services_area {
+    clear: both;
+    position: relative;
+    z-index: 5;
+    margin-top: 40px !important;
+  }
+
   section:not(.header_slider) {
     clear: both;
     position: relative;
-    z-index: 1;
-    margin-top: 20px;
+    z-index: 5;
+  }
+
+  /* Evitar superposición */
+  .pt-120 {
+    padding-top: 40px !important;
+  }
+
+  .pb-130 {
+    padding-bottom: 40px !important;
   }
 }
 
