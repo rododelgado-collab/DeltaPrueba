@@ -206,13 +206,22 @@ button:focus {
     display: flex;
   }
 
-  /* Index carousel - fill container with cover for better height */
+  /* Index carousel - flexible aspect ratio */
   #carouselIndex .carousel-inner {
-    height: 220px;
+    aspect-ratio: 16 / 9;
+    height: auto;
   }
 
   #carouselIndex .carousel-item {
-    height: 220px;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #carouselIndex .carousel-item.active {
+    display: flex;
   }
 
   #carouselIndex .carousel-item img {
