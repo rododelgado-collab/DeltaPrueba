@@ -1,43 +1,26 @@
-document.addEventListener("DOMContentLoaded", function () {
+// Simple carousel control - works on both index and product pages
+document.addEventListener("DOMContentLoaded", function() {
+  // Get all carousels on the page
   const carousels = document.querySelectorAll(".carousel");
 
-  if (carousels.length === 0) {
-    return;
-  }
-
-  carousels.forEach((carousel) => {
+  carousels.forEach(function(carousel) {
+    // Get carousel items
     const items = carousel.querySelectorAll(".carousel-item");
     if (items.length === 0) return;
 
     let currentIndex = 0;
 
-    // Find initial active index
-    items.forEach((item, idx) => {
-      if (item.classList.contains("active")) {
-        currentIndex = idx;
+    // Find which item is currently active
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].classList.contains("active")) {
+        currentIndex = i;
+        break;
       }
-    });
-
-    const carouselId = carousel.id;
-
-    // Get buttons inside carousel
-    const prevBtn = carousel.querySelector(".carousel-control-prev");
-    const nextBtn = carousel.querySelector(".carousel-control-next");
-    const indicators = carousel.querySelectorAll(".carousel-indicators li");
-
-    // For product pages, find pagination links
-    let paginationLinks = [];
-    if (indicators.length === 0 && carouselId === "carouselProduct") {
-      const allPageLinks = document.querySelectorAll("a.page-link[href='#carouselProduct']");
-      allPageLinks.forEach((link, idx) => {
-        if (link.querySelector("img") || link.querySelector("i")) {
-          paginationLinks.push(link);
-        }
-      });
     }
 
-    // Update carousel display
-    const goToSlide = (index) => {
+    // Function to change slide
+    function showSlide(index) {
+      // Handle wrapping
       if (index >= items.length) {
         currentIndex = 0;
       } else if (index < 0) {
@@ -46,99 +29,102 @@ document.addEventListener("DOMContentLoaded", function () {
         currentIndex = index;
       }
 
-      // Update items
-      items.forEach((item) => item.classList.remove("active"));
+      // Remove active from all items
+      for (let i = 0; i < items.length; i++) {
+        items[i].classList.remove("active");
+      }
+
+      // Add active to current item
       items[currentIndex].classList.add("active");
 
-      // Update Bootstrap indicators
+      // Update indicators if they exist
+      const indicators = carousel.querySelectorAll(".carousel-indicators li");
       if (indicators.length > 0) {
-        indicators.forEach((ind) => ind.classList.remove("active"));
+        for (let i = 0; i < indicators.length; i++) {
+          indicators[i].classList.remove("active");
+        }
         if (indicators[currentIndex]) {
           indicators[currentIndex].classList.add("active");
         }
       }
 
-      // Update pagination links
+      // Update pagination links if they exist (product pages)
+      const paginationLinks = carousel.parentElement.querySelectorAll(".pagination a.page-link");
       if (paginationLinks.length > 0) {
-        paginationLinks.forEach((link) => {
-          link.parentElement.classList.remove("active");
-        });
-        if (paginationLinks[currentIndex]) {
-          paginationLinks[currentIndex].parentElement.classList.add("active");
+        for (let i = 0; i < paginationLinks.length; i++) {
+          paginationLinks[i].parentElement.classList.remove("active");
+
+          // Check if this is an image thumbnail link
+          if (paginationLinks[i].querySelector("img")) {
+            if (i === currentIndex) {
+              paginationLinks[i].parentElement.classList.add("active");
+            }
+          }
         }
       }
-    };
+    }
 
-    // Attach click handlers to previous button
+    // Setup prev/next button handlers
+    const prevBtn = carousel.querySelector(".carousel-control-prev");
+    const nextBtn = carousel.querySelector(".carousel-control-next");
+
     if (prevBtn) {
-      const handlePrev = (e) => {
+      prevBtn.addEventListener("click", function(e) {
         e.preventDefault();
-        e.stopPropagation();
-        goToSlide(currentIndex - 1);
-      };
-      prevBtn.addEventListener("click", handlePrev);
-      prevBtn.addEventListener("touchend", handlePrev);
+        showSlide(currentIndex - 1);
+      });
     }
 
-    // Attach click handlers to next button
     if (nextBtn) {
-      const handleNext = (e) => {
+      nextBtn.addEventListener("click", function(e) {
         e.preventDefault();
-        e.stopPropagation();
-        goToSlide(currentIndex + 1);
-      };
-      nextBtn.addEventListener("click", handleNext);
-      nextBtn.addEventListener("touchend", handleNext);
-    }
-
-    // Attach click handlers to indicators
-    if (indicators.length > 0) {
-      indicators.forEach((indicator, idx) => {
-        const handleIndicatorClick = (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          goToSlide(idx);
-        };
-        indicator.addEventListener("click", handleIndicatorClick);
-        indicator.addEventListener("touchend", handleIndicatorClick);
+        showSlide(currentIndex + 1);
       });
     }
 
-    // Attach click handlers to pagination links
-    if (paginationLinks.length > 0) {
-      paginationLinks.forEach((link, idx) => {
-        const handleLinkClick = (e) => {
+    // Setup indicator clicks
+    const indicators = carousel.querySelectorAll(".carousel-indicators li");
+    indicators.forEach(function(indicator, idx) {
+      indicator.addEventListener("click", function(e) {
+        e.preventDefault();
+        showSlide(idx);
+      });
+    });
+
+    // Setup pagination link clicks (product pages)
+    const container = carousel.parentElement;
+    const paginationLinks = container.querySelectorAll(".pagination a.page-link");
+
+    let imageCount = 0;
+    paginationLinks.forEach(function(link, idx) {
+      // Only count links with images (not prev/next buttons)
+      if (link.querySelector("img")) {
+        const linkIndex = imageCount;
+        imageCount++;
+
+        link.addEventListener("click", function(e) {
           e.preventDefault();
-          e.stopPropagation();
-          goToSlide(idx);
-        };
-        link.addEventListener("click", handleLinkClick);
-        link.addEventListener("touchend", handleLinkClick);
+          showSlide(linkIndex);
+        });
+      }
+    });
+
+    // Handle separate product page prev/next buttons
+    const prevBtnProduct = document.getElementById("prevBtn");
+    const nextBtnProduct = document.getElementById("nextBtn");
+
+    if (prevBtnProduct && carousel.id === "carouselProduct") {
+      prevBtnProduct.addEventListener("click", function(e) {
+        e.preventDefault();
+        showSlide(currentIndex - 1);
       });
     }
 
-    // Handle product page prev/next buttons
-    if (carouselId === "carouselProduct") {
-      const prevBtnProduct = document.getElementById("prevBtn");
-      const nextBtnProduct = document.getElementById("nextBtn");
-
-      if (prevBtnProduct) {
-        const handlePrevProduct = (e) => {
-          e.preventDefault();
-          goToSlide(currentIndex - 1);
-        };
-        prevBtnProduct.addEventListener("click", handlePrevProduct);
-        prevBtnProduct.addEventListener("touchend", handlePrevProduct);
-      }
-
-      if (nextBtnProduct) {
-        const handleNextProduct = (e) => {
-          e.preventDefault();
-          goToSlide(currentIndex + 1);
-        };
-        nextBtnProduct.addEventListener("click", handleNextProduct);
-        nextBtnProduct.addEventListener("touchend", handleNextProduct);
-      }
+    if (nextBtnProduct && carousel.id === "carouselProduct") {
+      nextBtnProduct.addEventListener("click", function(e) {
+        e.preventDefault();
+        showSlide(currentIndex + 1);
+      });
     }
   });
 });
