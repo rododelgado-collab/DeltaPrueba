@@ -82,18 +82,30 @@ $(function () {
 
   $("select").niceSelect();
 
-  //===== Carousel Controls
+  //===== Carousel Controls - Asegurar que funcionan
 
-  $(".carousel-control-prev").on("click", function (e) {
+  $(document).on("click", ".carousel-control-prev", function (e) {
     e.preventDefault();
     const carouselId = $(this).attr("href");
-    $(carouselId).carousel("prev");
+    if (carouselId) {
+      $(carouselId).carousel("prev");
+    }
   });
 
-  $(".carousel-control-next").on("click", function (e) {
+  $(document).on("click", ".carousel-control-next", function (e) {
     e.preventDefault();
     const carouselId = $(this).attr("href");
-    $(carouselId).carousel("next");
+    if (carouselId) {
+      $(carouselId).carousel("next");
+    }
+  });
+
+  // Inicializar carousels específicos
+  $("[id^='carousel']").each(function () {
+    $(this).carousel({
+      interval: 5000,
+      pause: "hover"
+    });
   });
 
   //=====  WOW active
