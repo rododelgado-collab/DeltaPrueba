@@ -148,7 +148,8 @@ button:focus {
 
   /* Carousel contenedor */
   .container_slider {
-    margin-bottom: 30px !important;
+    margin-bottom: 50px !important;
+    padding-bottom: 20px !important;
   }
 
   .container_slider .carousel {
