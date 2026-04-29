@@ -190,6 +190,7 @@ button:focus {
     margin: 0;
   }
 
+  /* Carousel styles - generic */
   .carousel-inner {
     height: 300px;
   }
@@ -205,6 +206,30 @@ button:focus {
     display: flex;
   }
 
+  /* Index carousel - fill container with cover */
+  #carouselIndex .carousel-inner {
+    height: 250px;
+  }
+
+  #carouselIndex .carousel-item {
+    height: 250px;
+  }
+
+  #carouselIndex .carousel-item img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  /* Product carousel - show complete image */
+  #carouselProduct .carousel-item img {
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  /* Generic carousel item styling */
   .carousel-item img {
     height: 100%;
     width: auto;
