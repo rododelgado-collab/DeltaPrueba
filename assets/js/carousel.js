@@ -1,14 +1,7 @@
-// Carousel Control - Simple y Directo
 document.addEventListener("DOMContentLoaded", function () {
-  // Seleccionar todos los carousels
   const allCarousels = document.querySelectorAll(".carousel");
 
-  if (allCarousels.length === 0) {
-    console.log("No carousels found");
-    return;
-  }
-
-  allCarousels.forEach((carousel, carouselIndex) => {
+  allCarousels.forEach((carousel) => {
     const items = carousel.querySelectorAll(".carousel-item");
     const prevBtn = carousel.querySelector(".carousel-control-prev");
     const nextBtn = carousel.querySelector(".carousel-control-next");
@@ -18,78 +11,74 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let current = 0;
 
-    // Encontrar item active inicial
+    // Find initial active item
     items.forEach((item, idx) => {
       if (item.classList.contains("active")) {
         current = idx;
       }
     });
 
-    const goToSlide = (index) => {
-      // Normalizar índice
-      if (index >= items.length) current = 0;
-      else if (index < 0) current = items.length - 1;
-      else current = index;
+    const updateCarousel = (newIndex) => {
+      // Wrap around
+      if (newIndex >= items.length) {
+        current = 0;
+      } else if (newIndex < 0) {
+        current = items.length - 1;
+      } else {
+        current = newIndex;
+      }
 
-      // Remover active
-      items.forEach((item) => {
-        item.classList.remove("active");
-      });
-      indicators.forEach((indicator) => {
-        indicator.classList.remove("active");
-      });
+      // Remove active from all items and indicators
+      items.forEach((item) => item.classList.remove("active"));
+      indicators.forEach((indicator) => indicator.classList.remove("active"));
 
-      // Añadir active
+      // Add active to current item and indicator
       items[current].classList.add("active");
       if (indicators[current]) {
         indicators[current].classList.add("active");
       }
     };
 
-    // Eventos para botones
+    // Previous button
     if (prevBtn) {
-      prevBtn.onclick = (e) => {
+      prevBtn.addEventListener("click", (e) => {
         e.preventDefault();
-        goToSlide(current - 1);
-      };
-      prevBtn.addEventListener("touchstart", (e) => {
+        e.stopPropagation();
+        updateCarousel(current - 1);
+      });
+      prevBtn.addEventListener("touchend", (e) => {
         e.preventDefault();
-        goToSlide(current - 1);
+        e.stopPropagation();
+        updateCarousel(current - 1);
       });
     }
 
+    // Next button
     if (nextBtn) {
-      nextBtn.onclick = (e) => {
+      nextBtn.addEventListener("click", (e) => {
         e.preventDefault();
-        goToSlide(current + 1);
-      };
-      nextBtn.addEventListener("touchstart", (e) => {
+        e.stopPropagation();
+        updateCarousel(current + 1);
+      });
+      nextBtn.addEventListener("touchend", (e) => {
         e.preventDefault();
-        goToSlide(current + 1);
+        e.stopPropagation();
+        updateCarousel(current + 1);
       });
     }
 
-    // Eventos para indicadores
+    // Indicator dots
     indicators.forEach((indicator, idx) => {
-      indicator.onclick = (e) => {
+      indicator.addEventListener("click", (e) => {
         e.preventDefault();
-        goToSlide(idx);
-      };
-      indicator.addEventListener("touchstart", (e) => {
+        e.stopPropagation();
+        updateCarousel(idx);
+      });
+      indicator.addEventListener("touchend", (e) => {
         e.preventDefault();
-        goToSlide(idx);
+        e.stopPropagation();
+        updateCarousel(idx);
       });
     });
   });
 });
-
-// Ejecutar también después de un delay
-setTimeout(() => {
-  const allCarousels = document.querySelectorAll(".carousel");
-  allCarousels.forEach((carousel) => {
-    const items = carousel.querySelectorAll(".carousel-item");
-    if (items.length > 0) {
-      console.log("Carousel initialized:", carousel.id);
-    }
-  });
-}, 500);
