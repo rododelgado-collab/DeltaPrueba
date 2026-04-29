@@ -206,20 +206,19 @@ button:focus {
     display: flex;
   }
 
-  /* Index carousel - show complete image with good height */
+  /* Index carousel - fill container with cover for better height */
   #carouselIndex .carousel-inner {
-    height: 180px;
+    height: 220px;
   }
 
   #carouselIndex .carousel-item {
-    height: 180px;
+    height: 220px;
   }
 
   #carouselIndex .carousel-item img {
     height: 100%;
-    width: auto;
-    max-width: 100%;
-    object-fit: contain;
+    width: 100%;
+    object-fit: cover;
   }
 
   /* Product carousel - show complete image */
