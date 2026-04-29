@@ -37,18 +37,15 @@ $(function () {
     });
   });
 
-  //===== close navbar-collapse when a  clicked
+  //===== close navbar-collapse when a link is clicked
 
   $(".navbar-nav a").on("click", function () {
     $(".navbar-collapse").removeClass("show");
+    $(".navbar-toggler").removeClass("active");
   });
 
   $(".navbar-toggler").on("click", function () {
     $(this).toggleClass("active");
-  });
-
-  $(".navbar-nav a").on("click", function () {
-    $(".navbar-toggler").removeClass("active");
   });
 
   //===== Counter Up
