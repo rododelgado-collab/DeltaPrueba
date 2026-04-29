@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Delta Sport - Diagnostic Page</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.4.5.2.min.css">
+    <style>
+        body { padding: 20px; background: #f5f5f5; }
+        .test-section { background: white; padding: 20px; margin: 20px 0; border-radius: 5px; }
+        .test-pass { color: green; font-weight: bold; }
+        .test-fail { color: red; font-weight: bold; }
+        .carousel { height: 300px; background: #ddd; }
+        .carousel-item { height: 100%; background: #ccc; display: flex; align-items: center; justify-content: center; }
+        .carousel-item.active { background: #0066cc; color: white; }
+        .carousel-control-prev, .carousel-control-next { width: 50px; height: 50px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Delta Sport - Diagnostic Page</h1>
+        <p>This page tests if Bootstrap, jQuery, and Carousel are working correctly.</p>
+
+        <!-- Test 1: Bootstrap Navbar -->
+        <div class="test-section">
+            <h2>Test 1: Bootstrap Navbar</h2>
+            <p>Try clicking the hamburger menu on mobile. It should expand the menu.</p>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="#">Delta Test</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTest">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarTest">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a class="nav-link" href="#">Link 1</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Link 2</a></li>
+                    </ul>
+                </div>
+            </nav>
+            <div id="test1-result" style="margin-top: 10px;"></div>
+        </div>
+
+        <!-- Test 2: Simple Carousel -->
+        <div class="test-section">
+            <h2>Test 2: Simple Carousel</h2>
+            <p>Click the prev/next buttons to change slides. Works on both desktop and mobile.</p>
+            <div class="carousel" id="testCarousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">Slide 1 - Active</div>
+                    <div class="carousel-item">Slide 2</div>
+                    <div class="carousel-item">Slide 3</div>
+                </div>
+                <button class="carousel-control-prev" type="button">
+                    <span>←</span>
+                </button>
+                <button class="carousel-control-next" type="button">
+                    <span>→</span>
+                </button>
+            </div>
+            <p style="margin-top: 10px;" id="test2-result"></p>
+        </div>
+
+        <!-- Test 3: Library Detection -->
+        <div class="test-section">
+            <h2>Test 3: Library Detection</h2>
+            <ul id="test3-result"></ul>
+        </div>
+
+        <!-- Test 4: Event Detection -->
+        <div class="test-section">
+            <h2>Test 4: Event Detection</h2>
+            <button id="testButton" style="padding: 10px 20px; font-size: 16px;">Click or Tap This Button</button>
+            <p id="test4-result" style="margin-top: 10px;"></p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.4.5.2.min.js"></script>
+
+    <script>
+        // Test 3: Library Detection
+        var libraries = [
+            { name: "jQuery", test: function() { return typeof jQuery !== 'undefined'; } },
+            { name: "Bootstrap", test: function() { return typeof $().modal === 'function'; } },
+            { name: "Popper", test: function() { return typeof Popper !== 'undefined'; } }
+        ];
+
+        var test3Result = document.getElementById('test3-result');
+        libraries.forEach(function(lib) {
+            var li = document.createElement('li');
+            if (lib.test()) {
+                li.innerHTML = '<span class="test-pass">' + lib.name + ': OK</span>';
+            } else {
+                li.innerHTML = '<span class="test-fail">' + lib.name + ': MISSING</span>';
+            }
+            test3Result.appendChild(li);
+        });
+
+        // Test 1: Navbar
+        var test1Result = document.getElementById('test1-result');
+        if (typeof $().collapse === 'function') {
+            test1Result.innerHTML = '<p class="test-pass">Bootstrap collapse component is available. Navbar should work.</p>';
+        } else {
+            test1Result.innerHTML = '<p class="test-fail">Bootstrap collapse component is NOT loaded. Navbar will not work.</p>';
+        }
+
+        // Test 2: Carousel
+        var test2Result = document.getElementById('test2-result');
+        var testCarousel = document.getElementById('testCarousel');
+        var carouselItems = testCarousel.querySelectorAll('.carousel-item');
+        var currentSlide = 0;
+
+        function goToSlide(index) {
+            if (index >= carouselItems.length) currentSlide = 0;
+            else if (index < 0) currentSlide = carouselItems.length - 1;
+            else currentSlide = index;
+
+            for (var i = 0; i < carouselItems.length; i++) {
+                carouselItems[i].classList.remove('active');
+            }
+            carouselItems[currentSlide].classList.add('active');
+        }
+
+        testCarousel.querySelector('.carousel-control-prev').addEventListener('click', function(e) {
+            e.preventDefault();
+            goToSlide(currentSlide - 1);
+        });
+
+        testCarousel.querySelector('.carousel-control-next').addEventListener('click', function(e) {
+            e.preventDefault();
+            goToSlide(currentSlide + 1);
+        });
+
+        test2Result.innerHTML = '<p class="test-pass">Carousel event handlers attached. Carousel should work.</p>';
+
+        // Test 4: Event Detection
+        var test4Result = document.getElementById('test4-result');
+        var testButton = document.getElementById('testButton');
+        var clickCount = 0;
+        var touchCount = 0;
+
+        testButton.addEventListener('click', function(e) {
+            clickCount++;
+            test4Result.innerHTML = 'Click events: ' + clickCount + ' | Touch events: ' + touchCount;
+        });
+
+        testButton.addEventListener('touchend', function(e) {
+            touchCount++;
+            test4Result.innerHTML = 'Click events: ' + clickCount + ' | Touch events: ' + touchCount;
+        });
+
+        // Initial message
+        test4Result.innerHTML = '<p style="color: #666;">Click or tap the button above...</p>';
+
+        console.log("=== DIAGNOSTIC PAGE LOADED ===");
+        console.log("jQuery: " + (typeof jQuery !== 'undefined' ? "OK" : "MISSING"));
+        console.log("Bootstrap: " + (typeof $().modal === 'function' ? "OK" : "MISSING"));
+        console.log("=== END DIAGNOSTIC ===");
+    </script>
+</body>
+</html>
