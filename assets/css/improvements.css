@@ -57,6 +57,47 @@ button:focus {
   top: 0;
 }
 
+/* ====== Header Mobile Fix ====== */
+@media (max-width: 767px) {
+  body {
+    position: relative;
+  }
+
+  #header-placeholder,
+  .header_navbar {
+    position: relative !important;
+    z-index: 100;
+  }
+
+  .header_slider,
+  .container_slider {
+    margin-top: 0;
+    clear: both;
+  }
+
+  #header-placeholder .header_navbar {
+    position: relative !important;
+    top: auto;
+    left: auto;
+  }
+}
+
+/* ====== Sticky Header Mobile Fix ====== */
+@media (max-width: 767px) {
+  .sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    width: 100%;
+  }
+
+  .sticky ~ * {
+    margin-top: 0;
+  }
+}
+
 /* ====== Footer Layout Improvements ====== */
 .footer_container {
   flex-wrap: wrap;
